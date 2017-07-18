@@ -37,4 +37,4 @@
   roles:
     - { role: clamav, tags: [ 'clamav' ] }
     - { role: rsyslog, tags: [ 'rsyslog' ] }
-    - { role: cron, tags: [ 'cron' ] }
+    - { role: cronjob, tags: [ 'cron' ] }
