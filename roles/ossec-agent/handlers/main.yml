@@ -1,0 +1,5 @@
+---
+- name: restart ossec-agentd
+  service:
+    name: ossec-hids
+    state: restarted

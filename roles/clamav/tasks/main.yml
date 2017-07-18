@@ -1,0 +1,106 @@
+- name: Copy {{item}} rpm file to server
+  copy:
+    src: packages/{{item}}
+    dest: /tmp/{{item}}
+  with_items:
+    - "{{ package_clamav }}"
+    - "{{ package_clamav_data }}"
+    - "{{ package_clamav_devel }}"
+    - "{{ package_clamav_filesystem }}"
+    - "{{ package_clamav_lib }}"
+    - "{{ package_clamav_scanner }}"
+    - "{{ package_clamav_scanner_systemd }}"
+    - "{{ package_clamav_server }}"
+    - "{{ package_clamav_server_systemd }}"
+    - "{{ package_clamav_update }}"
+    - "{{ package_keyutils_libs_devel }}"
+    - "{{ package_krb5_devel }}"
+    - "{{ package_libcom_err_devel }}"
+    - "{{ package_libkadm5 }}"
+    - "{{ package_libselinux_devel }}"
+    - "{{ package_libsepol_devel }}"
+    - "{{ package_libverto_devel }}"
+    - "{{ package_nmap_ncat }}"
+    - "{{ package_openssl_devel }}"
+    - "{{ package_pcre_devel }}"
+    - "{{ package_zlib_devel }}"
+- name: install ClamAV
+  yum:
+    name: /tmp/{{item}}
+    state: present
+  with_items:
+    - "{{ package_clamav }}"
+    - "{{ package_clamav_data }}"
+    - "{{ package_clamav_devel }}"
+    - "{{ package_clamav_filesystem }}"
+    - "{{ package_clamav_lib }}"
+    - "{{ package_clamav_scanner }}"
+    - "{{ package_clamav_scanner_systemd }}"
+    - "{{ package_clamav_server }}"
+    - "{{ package_clamav_server_systemd }}"
+    - "{{ package_clamav_update }}"
+    - "{{ package_keyutils_libs_devel }}"
+    - "{{ package_krb5_devel }}"
+    - "{{ package_libcom_err_devel }}"
+    - "{{ package_libkadm5 }}"
+    - "{{ package_libselinux_devel }}"
+    - "{{ package_libsepol_devel }}"
+    - "{{ package_libverto_devel }}"
+    - "{{ package_nmap_ncat }}"
+    - "{{ package_openssl_devel }}"
+    - "{{ package_pcre_devel }}"
+    - "{{ package_zlib_devel }}"
+- name: Run the command for enable antivirus_can_scan_system
+  command: setsebool -P antivirus_can_scan_system 1
+- name: Run the command for enable antivirus_use_jit
+  command: setsebool -P antivirus_use_jit 1
+- name: Copy systemd services file to server
+  copy:
+    src: systemd/{{item}}
+    dest: /lib/systemd/system/{{item}}
+  with_items:
+   - clam-freshclam.service
+   - clamd.service
+   - clamd@scan.service
+- name: ensure log file exists
+  copy:
+    content: ""
+    dest: /var/log/clamd.log
+    force: no
+    group: clamscan
+    owner: root
+    mode: 0664
+- name: write the freshclam config file
+  template:
+    src: freshclam.j2
+    dest: /etc/freshclam.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+   - restart clam-freshclam
+- name: write the clamd config file
+  template:
+    src: clamd.j2
+    dest: /etc/clamd.d/clamd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+   - restart clamd@scan
+- name: ensure clam-freshclam is running
+  service:
+    name: clam-freshclam
+    state: started
+    enabled: yes
+- name: ensure clamd@scan is running
+  service:
+    name: clamd@scan
+    state: started
+    enabled: yes
+- name: Creates schedule scan cronjob
+  cron: minute="20" hour="3"
+        name="Schedule scan (daily schedule)"
+        cron_file="clamscan-Daily"
+        user="root"
+        job="clamdscan -i -c /etc/clamd.d/clamd.conf /*"

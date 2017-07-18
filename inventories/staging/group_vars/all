@@ -1,0 +1,4 @@
+---
+user: "vagrant"
+ip_ossim_server: "192.168.33.10"
+clamav_private_repo: "clamav.local"

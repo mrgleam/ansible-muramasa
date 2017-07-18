@@ -1,0 +1,9 @@
+---
+- name: restart clam-freshclam
+  service:
+    name: clam-freshclam
+    state: restarted
+- name: restart clamd@scan
+  service:
+    name: clamd@scan
+    state: restarted

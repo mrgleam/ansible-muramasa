@@ -1,0 +1,39 @@
+---
+- hosts: all:!ossim-server
+  remote_user: "{{ user }}"
+  vars:
+    ossec_server: "{{ ip_ossim_server }}"
+    package_inotify_tools: inotify-tools-3.13-2.el7.art.x86_64.rpm
+    package_ossec_hids: ossec-hids-2.9.1-1764.el7.art.x86_64.rpm
+    package_ossec_hids_agent: ossec-hids-agent-2.9.1-1764.el7.art.x86_64.rpm
+  roles:
+    - ossec-agent
+- hosts: all:!ossim-server:!clamav-repo
+  remote_user: "{{ user }}"
+  vars:
+    rsyslog_server: "{{ ip_ossim_server }}"
+    clamav_repo: "{{ clamav_private_repo }}"
+    package_clamav: clamav-0.99.2-1.el7.x86_64.rpm
+    package_clamav_data: clamav-data-0.99.2-1.el7.noarch.rpm
+    package_clamav_devel: clamav-devel-0.99.2-1.el7.x86_64.rpm
+    package_clamav_filesystem: clamav-filesystem-0.99.2-1.el7.noarch.rpm
+    package_clamav_lib: clamav-lib-0.99.2-1.el7.x86_64.rpm
+    package_clamav_scanner: clamav-scanner-0.99.2-1.el7.noarch.rpm
+    package_clamav_scanner_systemd: clamav-scanner-systemd-0.99.2-1.el7.noarch.rpm
+    package_clamav_server: clamav-server-0.99.2-1.el7.x86_64.rpm
+    package_clamav_server_systemd: clamav-server-systemd-0.99.2-1.el7.noarch.rpm
+    package_clamav_update: clamav-update-0.99.2-1.el7.x86_64.rpm
+    package_keyutils_libs_devel: keyutils-libs-devel-1.5.8-3.el7.x86_64.rpm
+    package_krb5_devel: krb5-devel-1.14.1-27.el7_3.x86_64.rpm
+    package_libcom_err_devel: libcom_err-devel-1.42.9-9.el7.x86_64.rpm
+    package_libkadm5: libkadm5-1.14.1-27.el7_3.x86_64.rpm
+    package_libselinux_devel: libselinux-devel-2.5-6.el7.x86_64.rpm
+    package_libsepol_devel: libsepol-devel-2.5-6.el7.x86_64.rpm
+    package_libverto_devel: libverto-devel-0.2.5-4.el7.x86_64.rpm
+    package_nmap_ncat: nmap-ncat-6.40-7.el7.x86_64.rpm
+    package_openssl_devel: openssl-devel-1.0.1e-60.el7_3.1.x86_64.rpm
+    package_pcre_devel: pcre-devel-8.32-15.el7_2.1.x86_64.rpm
+    package_zlib_devel: zlib-devel-1.2.7-17.el7.x86_64.rpm
+  roles:
+    - clamav
+    - rsyslog
