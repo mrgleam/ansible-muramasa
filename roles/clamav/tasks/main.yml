@@ -98,9 +98,3 @@
     name: clamd@scan
     state: started
     enabled: yes
-- name: Creates schedule scan cronjob
-  cron: minute="20" hour="3"
-        name="Schedule scan (daily schedule)"
-        cron_file="clamscan-Daily"
-        user="root"
-        job="clamdscan -i -c /etc/clamd.d/clamd.conf /*"

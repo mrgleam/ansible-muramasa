@@ -7,7 +7,7 @@
     package_ossec_hids: ossec-hids-2.9.1-1764.el7.art.x86_64.rpm
     package_ossec_hids_agent: ossec-hids-agent-2.9.1-1764.el7.art.x86_64.rpm
   roles:
-    - ossec-agent
+    - { role: ossec-agent, tags: [ 'ossec-agent' ] }
 - hosts: all:!ossim-server:!clamav-repo
   remote_user: "{{ user }}"
   vars:
@@ -35,5 +35,6 @@
     package_pcre_devel: pcre-devel-8.32-15.el7_2.1.x86_64.rpm
     package_zlib_devel: zlib-devel-1.2.7-17.el7.x86_64.rpm
   roles:
-    - clamav
-    - rsyslog
+    - { role: clamav, tags: [ 'clamav' ] }
+    - { role: rsyslog, tags: [ 'rsyslog' ] }
+    - { role: cron, tags: [ 'cron' ] }
