@@ -4,4 +4,4 @@
         name="Schedule scan (daily schedule)"
         cron_file="clamscan-Daily"
         user="root"
-        job="clamdscan -i -c /etc/clamd.d/clamd.conf /*"
+        job="clamdscan -i -c /etc/clamd.d/clamd.conf --fdpass /"
