@@ -25,13 +25,16 @@
     package_clamav_update: clamav-update-0.99.2-1.el7.x86_64.rpm
     package_keyutils_libs_devel: keyutils-libs-devel-1.5.8-3.el7.x86_64.rpm
     package_krb5_devel: krb5-devel-1.14.1-27.el7_3.x86_64.rpm
+    package_krb5_libs: krb5-libs-1.14.1-27.el7_3.x86_64.rpm
     package_libcom_err_devel: libcom_err-devel-1.42.9-9.el7.x86_64.rpm
     package_libkadm5: libkadm5-1.14.1-27.el7_3.x86_64.rpm
     package_libselinux_devel: libselinux-devel-2.5-6.el7.x86_64.rpm
     package_libsepol_devel: libsepol-devel-2.5-6.el7.x86_64.rpm
     package_libverto_devel: libverto-devel-0.2.5-4.el7.x86_64.rpm
     package_nmap_ncat: nmap-ncat-6.40-7.el7.x86_64.rpm
+    package_openssl: openssl-1.0.1e-60.el7_3.1.x86_64.rpm
     package_openssl_devel: openssl-devel-1.0.1e-60.el7_3.1.x86_64.rpm
+    package_openssl_libs: openssl-libs-1.0.1e-60.el7_3.1.x86_64.rpm
     package_pcre_devel: pcre-devel-8.32-15.el7_2.1.x86_64.rpm
     package_zlib_devel: zlib-devel-1.2.7-17.el7.x86_64.rpm
   roles:
