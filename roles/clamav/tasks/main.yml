@@ -58,8 +58,12 @@
     - "{{ package_zlib_devel }}"
 - name: Run the command for enable antivirus_can_scan_system
   command: setsebool -P antivirus_can_scan_system 1
+  when: (ansible_selinux.status == 'enabled')
+  tags: selinux
 - name: Run the command for enable antivirus_use_jit
   command: setsebool -P antivirus_use_jit 1
+  when: (ansible_selinux.status == 'enabled')
+  tags: selinux
 - name: Copy systemd services file to server
   copy:
     src: systemd/{{item}}
