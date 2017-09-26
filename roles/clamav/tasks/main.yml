@@ -58,11 +58,11 @@
     - "{{ package_zlib_devel }}"
 - name: check if pkg already installed
   yum:
-    list="{{ package_nmap_ncat }}"
+    list=nmap_ncat
   register: is_installed
 - name: remove nmap-ncat via RPM file with rpm
-  command: rpm -e --nodeps {{ package_nmap_ncat }}
-  when: (is_installed.results|length == 1) or (is_installed.results[1].yumstate != 'installed')
+  command: rpm -e --nodeps {{ package_nmap_ncat | regex_replace('.rpm') }}
+  when: is_installed.results|selectattr("yumstate", "match", "installed")|list|length == 0
 - name: Run the command for enable antivirus_can_scan_system
   command: setsebool -P antivirus_can_scan_system 1
   when: (ansible_selinux.status == 'enabled')
